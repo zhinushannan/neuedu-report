@@ -39,6 +39,8 @@ router.get('/get_all_year', (req, res) => {
         {
           name: "温度(°C)",
           splitNumber: 4,
+          min: 0,
+          max: 40,
           axisLabel: {
             textStyle: {
               color: "#ffffff"
@@ -48,6 +50,8 @@ router.get('/get_all_year', (req, res) => {
         {
           name: "年降水量(mm)",
           splitNumber: 4,
+          min: 0,
+          max: 2000,
           axisLabel: {
             textStyle: {
               color: "#ffffff"
@@ -56,7 +60,9 @@ router.get('/get_all_year', (req, res) => {
         },
         {
           name: "年降雨天数",
-          splitNumber: 5,
+          max: 200,
+          min: 0,
+          splitNumber: 4,
           show: false
         }
       ],

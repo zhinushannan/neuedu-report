@@ -30,7 +30,7 @@ router.get('/get_history_weather', (req, res) => {
       maxTemperature.push(data["maxTemperature"])
       minTemperature.push(data["minTemperature"])
       avgTemperature.push(data["avgTemperature"])
-      precipitation.push(data["precipitation"])
+      precipitation.push(parseFloat(data["precipitation"]))
     }
 
     let option = {
@@ -45,7 +45,7 @@ router.get('/get_history_weather', (req, res) => {
       yAxis: [
         {
           name: "温度(°C)",
-          splitNumber: 3,
+          splitNumber: 4,
           axisLabel: {
             textStyle: {
               color: "#ffffff"
@@ -55,7 +55,9 @@ router.get('/get_history_weather', (req, res) => {
         {
           name: "降水量(mm)",
           type: "value",
-          splitNumber: 3,
+          splitNumber: 4,
+          min: 0,
+          max: (parseInt(precipitation.sort().reverse()[0] / 20) + 1) * 20,
           axisLabel: {
             textStyle: {
               color: "#ffffff"

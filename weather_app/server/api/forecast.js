@@ -192,7 +192,9 @@ router.get('/forecast', (req, res) => {
       yAxis: [
         {
           name: "温度(°C)",
-          splitNumber: 3,
+          min: 0,
+          max: 40,
+          splitNumber: 4,
           axisLabel: {
             textStyle: {
               color: "#ffffff"
@@ -202,7 +204,7 @@ router.get('/forecast', (req, res) => {
         {
           name: "降水量(mm)",
           type: "value",
-          splitNumber: 3,
+          splitNumber: 4,
           axisLabel: {
             textStyle: {
               color: "#ffffff"

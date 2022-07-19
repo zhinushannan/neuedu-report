@@ -87,16 +87,6 @@ export default {
       })
       _this.$axios.get("get_history_weather").then((resp) => {
         let option = resp.data
-        option["dataZoom"] = [
-          {
-            type: "slider",
-            realtime: true,
-            height: 10,
-            start: 0,
-            end: 100,
-            min: 10
-          }
-        ]
         option["tooltip"] = {
           trigger: 'axis',
           show: true
