@@ -1,4 +1,4 @@
-package club.kwcoder.weather.writable;
+package hadoop.club.kwcoder.weather.writable;
 
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapred.lib.db.DBWritable;
@@ -13,12 +13,36 @@ import java.util.Objects;
 
 public class ForecastWritable implements DBWritable, Writable {
 
+    /**
+     * 日期字符串，格式—— dd/MM/yyyy
+     */
     private String date;
+
+    /**
+     * 最高温度
+     */
     private Float maxTemperature;
+
+    /**
+     * 最低温度
+     */
     private Float minTemperature;
+
+    /**
+     * 平均温度
+     */
     private Float avgTemperature;
+
+    /**
+     * 降水量
+     */
     private Float precipitation;
 
+    /**
+     * 通过建造者对象获取实例
+     *
+     * @param builder 对象实例
+     */
     public ForecastWritable(Builder builder) {
         this.date = builder.date;
         this.maxTemperature = builder.maxTemperature;
@@ -27,51 +51,103 @@ public class ForecastWritable implements DBWritable, Writable {
         this.precipitation = builder.precipitation;
     }
 
+    /**
+     * 建造者类
+     */
     public static class Builder {
+        /**
+         * 日期字符串，格式—— dd/MM/yyyy
+         */
         private String date;
+
+        /**
+         * 最高温度
+         */
         private Float maxTemperature;
+
+        /**
+         * 最低温度
+         */
         private Float minTemperature;
+
+        /**
+         * 平均温度
+         */
         private Float avgTemperature;
+
+        /**
+         * 降水量
+         */
         private Float precipitation;
 
+        /**
+         * 设置日期字符串
+         */
         public Builder setDate(String date) {
             this.date = date;
             return this;
         }
 
+        /**
+         * 设置最高温度
+         */
         public Builder setMaxTemperature(Float maxTemperature) {
             this.maxTemperature = (float) (Math.round(maxTemperature * 10) / 10);
             return this;
         }
 
+        /**
+         * 设置最低温度
+         */
         public Builder setMinTemperature(Float minTemperature) {
             this.minTemperature = (float) (Math.round(minTemperature * 10) / 10);
             return this;
         }
 
+        /**
+         * 设置平均温度
+         */
         public Builder setAvgTemperature(Float avgTemperature) {
             this.avgTemperature = (float) (Math.round(avgTemperature * 10) / 10);
             return this;
         }
 
+        /**
+         * 设置降水量
+         */
         public Builder setPrecipitation(Float precipitation) {
             this.precipitation = (float) (Math.round(precipitation * 10) / 10);
             return this;
         }
 
+        /**
+         * 获取建造者对象
+         */
         public Builder() {
         }
 
+        /**
+         * 建造，获取对象实例
+         */
         public ForecastWritable build() {
             return new ForecastWritable(this);
         }
 
     }
 
-
+    /**
+     * 数据库表明
+     */
     public static final String tableName = "forecast";
+
+    /**
+     * 数据库字段
+     */
     public static final String[] fields = {"date", "maxTemperature", "minTemperature", "avgTemperature", "precipitation"};
 
+    /**
+     * 数据库输出序列化
+     */
     @Override
     public void write(PreparedStatement statement) throws SQLException {
         statement.setString(1, this.date);
@@ -81,6 +157,9 @@ public class ForecastWritable implements DBWritable, Writable {
         statement.setFloat(5, this.precipitation);
     }
 
+    /**
+     * 数据库输入反序列化
+     */
     @Override
     public void readFields(ResultSet resultSet) throws SQLException {
         this.date = resultSet.getString(1);
@@ -90,6 +169,9 @@ public class ForecastWritable implements DBWritable, Writable {
         this.precipitation = resultSet.getFloat(5);
     }
 
+    /**
+     * 文件输出序列化
+     */
     @Override
     public void write(DataOutput out) throws IOException {
         out.writeUTF(this.date);
@@ -99,6 +181,9 @@ public class ForecastWritable implements DBWritable, Writable {
         out.writeFloat(this.precipitation);
     }
 
+    /**
+     * 文件输入反序列化
+     */
     @Override
     public void readFields(DataInput in) throws IOException {
         this.date = in.readUTF();

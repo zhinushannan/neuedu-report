@@ -1,12 +1,12 @@
-package club.kwcoder.weather;
+package hadoop.club.kwcoder.weather;
 
-import club.kwcoder.weather.runner.DataCleaning;
-import club.kwcoder.weather.runner.Forecast;
-import club.kwcoder.weather.runner.YearSummary;
-import club.kwcoder.weather.util.HadoopUtils;
-import club.kwcoder.weather.writable.ForecastWritable;
-import club.kwcoder.weather.writable.WeatherWritable;
-import club.kwcoder.weather.writable.WeatherWritableSummary;
+import hadoop.club.kwcoder.weather.runner.DataCleaning;
+import hadoop.club.kwcoder.weather.runner.Forecast;
+import hadoop.club.kwcoder.weather.runner.YearSummary;
+import hadoop.club.kwcoder.weather.util.HadoopUtils;
+import hadoop.club.kwcoder.weather.writable.ForecastWritable;
+import hadoop.club.kwcoder.weather.writable.WeatherWritable;
+import hadoop.club.kwcoder.weather.writable.WeatherWritableSummary;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;

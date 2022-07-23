@@ -1,4 +1,4 @@
-package club.kwcoder.weather.util;
+package hadoop.club.kwcoder.weather.util;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -11,6 +11,7 @@ public class ValidateUtils {
 
     /**
      * 校验输入文本数据
+     *
      * @param line 文本数据
      * @return 空返回true
      */
@@ -20,7 +21,8 @@ public class ValidateUtils {
 
     /**
      * 校验字符串数组长度
-     * @param items 字符串数组
+     *
+     * @param items  字符串数组
      * @param length 长度
      * @return 不相同返回true
      */
@@ -28,19 +30,5 @@ public class ValidateUtils {
         return items.length != length;
     }
 
-    /**
-     * 校验输入文本数据并分割
-     * @param line 输入文本数据
-     * @param sep 分隔符
-     * @param limit 目标长度
-     * @return 当字符串为空或无法分割到目标长度时，返回true
-     */
-    public static String[] splitAndValidate(String line, String sep, int limit) {
-        if (validate(line)) {
-            return null;
-        }
-        String[] split = line.split(sep, limit);
-        return validate(split, limit) ? null : split;
-    }
 
 }

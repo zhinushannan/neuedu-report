@@ -1,6 +1,4 @@
-package club.kwcoder.weather.writable;
-
-import org.apache.hadoop.mapred.lib.db.DBWritable;
+package hadoop.club.kwcoder.weather.writable;
 
 import java.io.DataInput;
 import java.io.DataOutput;

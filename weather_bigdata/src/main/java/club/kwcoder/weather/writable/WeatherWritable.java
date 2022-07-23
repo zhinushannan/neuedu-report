@@ -1,4 +1,4 @@
-package club.kwcoder.weather.writable;
+package hadoop.club.kwcoder.weather.writable;
 
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.mapred.lib.db.DBWritable;
