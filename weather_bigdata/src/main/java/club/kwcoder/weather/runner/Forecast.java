@@ -10,6 +10,9 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 
+/**
+ * 根据历史数据获取预测数据
+ */
 public class Forecast {
 
     public static class ForecastMapper extends Mapper<LongWritable, WeatherWritable, Text, WeatherWritable> {

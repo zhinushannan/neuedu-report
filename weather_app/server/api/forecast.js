@@ -268,8 +268,6 @@ router.get('/forecast', (req, res) => {
         },
       ]
     }
-
-
     res.json(option)
   })
 

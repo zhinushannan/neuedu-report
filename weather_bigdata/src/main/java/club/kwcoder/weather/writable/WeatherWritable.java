@@ -1,4 +1,4 @@
-package hadoop.club.kwcoder.weather.writable;
+package club.kwcoder.weather.writable;
 
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.mapred.lib.db.DBWritable;
@@ -39,11 +39,125 @@ public class WeatherWritable implements WritableComparable<WeatherWritable>, DBW
      */
     private Float avgTemperature;
 
+    /**
+     * 通过建造者对象获取实例
+     *
+     * @param builder 对象实例
+     */
+    public WeatherWritable(Builder builder) {
+        this.code = builder.code;
+        this.date = builder.date;
+        this.precipitation = builder.precipitation;
+        this.maxTemperature = builder.maxTemperature;
+        this.minTemperature = builder.minTemperature;
+        this.avgTemperature = builder.avgTemperature;
+    }
 
+    public static class Builder {
+        /**
+         * 气象站代码
+         */
+        private String code;
+        /**
+         * 日期
+         */
+        private String date;
+        /**
+         * 降水量
+         */
+        private Float precipitation;
+
+        /**
+         * 最高温度
+         */
+        private Float maxTemperature;
+        /**
+         * 最低温度
+         */
+        private Float minTemperature;
+        /**
+         * 平均温度
+         */
+        private Float avgTemperature;
+
+        /**
+         * 设置气象站代码
+         */
+        public Builder setCode(String code) {
+            this.code = code;
+            return this;
+        }
+
+        /**
+         * 设置日期
+         */
+        public Builder setDate(String date) {
+            this.date = date;
+            return this;
+        }
+
+        /**
+         * 设置降水量
+         */
+        public Builder setPrecipitation(Float precipitation) {
+            this.precipitation = precipitation;
+            return this;
+        }
+
+        /**
+         * 设置最高温度
+         */
+        public Builder setMaxTemperature(Float maxTemperature) {
+            this.maxTemperature = maxTemperature;
+            return this;
+        }
+
+        /**
+         * 设置最低温度
+         */
+        public Builder setMinTemperature(Float minTemperature) {
+            this.minTemperature = minTemperature;
+            return this;
+        }
+
+        /**
+         * 这是平均温度
+         */
+        public Builder setAvgTemperature(Float avgTemperature) {
+            this.avgTemperature = avgTemperature;
+            return this;
+        }
+
+        /**
+         * 获取建造者对象
+         */
+        public Builder() {
+        }
+
+        /**
+         * 建造，获取对象实例
+         */
+        public WeatherWritable build() {
+            return new WeatherWritable(this);
+        }
+
+    }
+
+
+    /**
+     * 数据库表明
+     */
     public static final String tableName = "weather";
+
+    /**
+     * 数据库字段
+     */
     public static final String[] fields = {"code", "date", "precipitation", "maxTemperature",
             "minTemperature", "avgTemperature"};
 
+    /**
+     * 数据库输出序列化
+     */
     @Override
     public void write(PreparedStatement statement) throws SQLException {
         statement.setString(1, this.code);
@@ -54,6 +168,9 @@ public class WeatherWritable implements WritableComparable<WeatherWritable>, DBW
         statement.setFloat(6, this.avgTemperature);
     }
 
+    /**
+     * 数据库输入反序列化
+     */
     @Override
     public void readFields(ResultSet resultSet) throws SQLException {
         this.code = resultSet.getString(1);
@@ -64,53 +181,9 @@ public class WeatherWritable implements WritableComparable<WeatherWritable>, DBW
         this.avgTemperature = resultSet.getFloat(6);
     }
 
-    public static class Builder {
-        private String code;
-        private String date;
-        private Float precipitation;
-        private Float maxTemperature;
-        private Float minTemperature;
-        private Float avgTemperature;
-
-        public Builder setCode(String code) {
-            this.code = code;
-            return this;
-        }
-
-        public Builder setDate(String date) {
-            this.date = date;
-            return this;
-        }
-
-        public Builder setPrecipitation(Float precipitation) {
-            this.precipitation = precipitation;
-            return this;
-        }
-
-        public Builder setMaxTemperature(Float maxTemperature) {
-            this.maxTemperature = maxTemperature;
-            return this;
-        }
-
-        public Builder setMinTemperature(Float minTemperature) {
-            this.minTemperature = minTemperature;
-            return this;
-        }
-
-        public Builder setAvgTemperature(Float avgTemperature) {
-            this.avgTemperature = avgTemperature;
-            return this;
-        }
-
-        public WeatherWritable build() {
-            return new WeatherWritable(this);
-        }
-
-        public Builder() {
-        }
-
-    }
-
+    /**
+     * 文件输出序列化
+     */
     @Override
     public void write(DataOutput out) throws IOException {
         out.writeUTF(this.code);
@@ -121,6 +194,9 @@ public class WeatherWritable implements WritableComparable<WeatherWritable>, DBW
         out.writeFloat(this.avgTemperature);
     }
 
+    /**
+     * 文件输入反序列化
+     */
     @Override
     public void readFields(DataInput in) throws IOException {
         this.code = in.readUTF();
@@ -138,15 +214,6 @@ public class WeatherWritable implements WritableComparable<WeatherWritable>, DBW
         }
         // 仅考虑83377巴西利亚的数据
         return this.date.compareTo(other.getDate());
-    }
-
-    public WeatherWritable(Builder builder) {
-        this.code = builder.code;
-        this.date = builder.date;
-        this.precipitation = builder.precipitation;
-        this.maxTemperature = builder.maxTemperature;
-        this.minTemperature = builder.minTemperature;
-        this.avgTemperature = builder.avgTemperature;
     }
 
     public WeatherWritable() {

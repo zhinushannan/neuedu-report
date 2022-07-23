@@ -5,7 +5,6 @@ let conn = require("../config/mysql").conn
 let $weather_sql = require('../sql/weather');
 
 
-// 增加用户接口
 // GET 请求
 router.get('/get_history_weather', (req, res) => {
   let query = $weather_sql.query_by_date;

@@ -1,4 +1,4 @@
-package hadoop.club.kwcoder.weather.writable;
+package club.kwcoder.weather.writable;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -18,16 +18,31 @@ public class WeatherWritableSummary extends WeatherWritable {
      */
     private Integer rainDays;
 
+    /**
+     * 通过建造者对象获取实例
+     *
+     * @param builder 对象实例
+     */
     public WeatherWritableSummary(Builder builder) {
         super(builder);
         this.year = builder.year;
         this.rainDays = builder.rainDays;
     }
 
+    /**
+     * 数据库表明
+     */
     public static final String tableName = "weather_year";
+
+    /**
+     * 数据库字段
+     */
     public static final String[] fields = {"code", "precipitation", "maxTemperature",
             "minTemperature", "avgTemperature", "year", "rainDays"};
 
+    /**
+     * 数据库输出序列化
+     */
     @Override
     public void write(PreparedStatement statement) throws SQLException {
         System.out.println(this);
@@ -40,6 +55,9 @@ public class WeatherWritableSummary extends WeatherWritable {
         statement.setInt(7, this.rainDays);
     }
 
+    /**
+     * 数据库输入反序列化
+     */
     @Override
     public void readFields(ResultSet resultSet) throws SQLException {
         super.setCode(resultSet.getString(1));
@@ -51,6 +69,9 @@ public class WeatherWritableSummary extends WeatherWritable {
         this.rainDays = resultSet.getInt(7);
     }
 
+    /**
+     * 文件输出序列化
+     */
     @Override
     public void write(DataOutput out) throws IOException {
         out.writeUTF(this.year);
@@ -62,6 +83,9 @@ public class WeatherWritableSummary extends WeatherWritable {
         out.writeFloat(super.getAvgTemperature());
     }
 
+    /**
+     * 文件输入反序列化
+     */
     @Override
     public void readFields(DataInput in) throws IOException {
         this.year = in.readUTF();
@@ -79,48 +103,81 @@ public class WeatherWritableSummary extends WeatherWritable {
     }
 
     public static class Builder extends WeatherWritable.Builder {
+        /**
+         * 年份
+         */
         private String year;
+        /**
+         * 降雨天数
+         */
         private Integer rainDays;
 
+        /**
+         * 设置降雨天数
+         */
         public Builder setRainDays(Integer rainDays) {
             this.rainDays = rainDays;
             return this;
         }
 
+        /**
+         * 设置年份
+         */
         public Builder setYear(String year) {
             this.year = year;
             return this;
         }
 
+        /**
+         * 设置气象站代码
+         */
         public Builder setCode(String code) {
             super.setCode(code);
             return this;
         }
 
+        /**
+         * 设置降水量
+         */
         public Builder setPrecipitation(Float precipitation) {
             super.setPrecipitation((float) (Math.round(precipitation * 10) / 10));
             return this;
         }
 
+        /**
+         * 设置最高温度
+         */
         public Builder setMaxTemperature(Float maxTemperature) {
             super.setMaxTemperature(maxTemperature);
             return this;
         }
 
+        /**
+         * 设置最低温度
+         */
         public Builder setMinTemperature(Float minTemperature) {
             super.setMinTemperature(minTemperature);
             return this;
         }
 
+        /**
+         * 这是平均温度
+         */
         public Builder setAvgTemperature(Float avgTemperature) {
             super.setAvgTemperature((float) (Math.round(avgTemperature * 10) / 10));
             return this;
         }
 
+        /**
+         * 建造，获取对象实例
+         */
         public WeatherWritableSummary buildSummary() {
             return new WeatherWritableSummary(this);
         }
 
+        /**
+         * 获取建造者对象
+         */
         public Builder() {
         }
 

@@ -1,4 +1,4 @@
-package hadoop.club.kwcoder.weather.util;
+package club.kwcoder.weather.util;
 
 import org.apache.hadoop.conf.Configuration;
 
