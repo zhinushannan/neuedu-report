@@ -49,7 +49,7 @@
 
 年最高、最低、平均气温：根据历史数据，计算出每年的最高气温、最低气温、平均平均气温、年总降水量、年总降水天数，并进行可视化展示，此模块支持可视化图的交互拉拽。
 
-![image-20220719161007112](https://pic-go-zhinushannan.oss-cn-hangzhou.aliyuncs.com/202206/202207191610723.png)
+![image-20220719161007112](https://picgo.kwcoder.club/202206/202207191610723.png)
 
 ## 三、功能设计
 
@@ -57,33 +57,33 @@
 
 模拟预测天气预报，生成一周的天气预测结果并进行可视化展示。
 
-![image-20220719162244043](https://pic-go-zhinushannan.oss-cn-hangzhou.aliyuncs.com/202206/202207191622401.png)
+![image-20220719162244043](https://picgo.kwcoder.club/202206/202207191622401.png)
 
 ### 2、历史天气查询
 
 展示历史上今天的天气数据。
 
-![image-20220719162321230](https://pic-go-zhinushannan.oss-cn-hangzhou.aliyuncs.com/202206/202207191623496.png)
+![image-20220719162321230](https://picgo.kwcoder.club/202206/202207191623496.png)
 
 ### 3、天气走向曲线
 
 根据历史数据，计算出每年1-12月份每月气温和降水的趋势。
 
-![image-20220719162357912](https://pic-go-zhinushannan.oss-cn-hangzhou.aliyuncs.com/202206/202207191623131.png)
+![image-20220719162357912](https://picgo.kwcoder.club/202206/202207191623131.png)
 
 ### 4、历史年份数据查询
 
 通过“拖拉拽”的方式在`年最高、最低、平均温度`模块中，可以查看每年的最高气温、最低气温、平均气温、年总降水量和年总降水天数。
 
-![image-20220719161516639](https://pic-go-zhinushannan.oss-cn-hangzhou.aliyuncs.com/202206/202207191615207.png)
+![image-20220719161516639](https://picgo.kwcoder.club/202206/202207191615207.png)
 
 ### 5、页面自适应
 
 页面可以根据窗口大小的动态变化主动实时调整图例大小。
 
-![image-20220719162016209](https://pic-go-zhinushannan.oss-cn-hangzhou.aliyuncs.com/202206/202207191620968.png)
+![image-20220719162016209](https://picgo.kwcoder.club/202206/202207191620968.png)
 
-![image-20220719162041710](https://pic-go-zhinushannan.oss-cn-hangzhou.aliyuncs.com/202206/202207191620179.png)
+![image-20220719162041710](https://picgo.kwcoder.club/202206/202207191620179.png)
 
 ## 四、详细设计
 
@@ -103,7 +103,7 @@
 
 通过HDFS的WEB端上传数据
 
-![image-20220719164105691](https://pic-go-zhinushannan.oss-cn-hangzhou.aliyuncs.com/202206/202207191641858.png)
+![image-20220719164105691](https://picgo.kwcoder.club/202206/202207191641858.png)
 
 ### 2、大数据统计与分析
 
@@ -1038,17 +1038,6 @@ public class YearSummary {
 
         @Override
         protected void map(LongWritable key, WeatherWritable value, Mapper<LongWritable, WeatherWritable, Text, WeatherWritableSummary>.Context context) throws IOException, InterruptedException {
-             /*
-            编号     日期        降水量  最高温度  最低温度  平均温度
-            83377	01/01/1963	0.0	29.0	16.7	21.74
-            83377	01/01/1964	3.2	26.0	18.0	20.84
-            83377	01/01/1965	21.2	24.7	16.6	19.66
-            83377	01/01/1966	20.0	27.8	17.5	20.7
-            83377	01/01/1967	0.1	27.6	15.4	21.2
-            83377	01/01/1968	0.0	28.6	17.8	22.28
-            83377	01/01/1970	45.2	26.3	16.3	19.8
-            83377	01/01/1971	0.0	30.3	18.5	24.02
-             */
             WeatherWritableSummary outVal = outValBuilder
                     .setCode(value.getCode())
                     .setYear(value.getDate().split("/")[2])
@@ -2139,7 +2128,7 @@ new Vue({
 
 ```
 
-### Vue——`App.vue`
+#### Vue——`App.vue`
 
 ```vue
 <template>
@@ -2459,15 +2448,15 @@ h1 {
 
 `background.jpg`
 
-![image-20220724004711453](https://picgo.kwcoder.club/202208/202207240047974.png)
+![background.jpg](https://picgo.kwcoder.club/202208/202207251118381.png)
 
 `head_bg.png`
 
-![image-20220724004732977](https://picgo.kwcoder.club/202208/202207240047404.png)
+![head_bg.png](https://picgo.kwcoder.club/202208/202207251118170.png)
 
 `line.png`
 
-![image-20220724004749215](https://picgo.kwcoder.club/202208/202207240047408.png)
+![](https://picgo.kwcoder.club/202208/202207251118550.png)
 
 
 
