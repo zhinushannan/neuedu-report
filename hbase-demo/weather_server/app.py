@@ -1,18 +1,13 @@
-import happybase
 from flask import Flask
+from flask_cors import CORS
+
+import controller
 
 app = Flask(__name__)
+CORS(app, resources=r'/*')
 
-
-@app.route('/api/forecast')
-def hello_world():
-    connection = happybase.Connection(host="master")
-    forecast_table = connection.table("forecast")
-
-
-    connection.close()
-    return 'Hello World!'
-
+for i in controller.blueprint:
+    app.register_blueprint(i)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=8888, debug=False)
