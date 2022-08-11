@@ -4,33 +4,39 @@ import club.kwcoder.book.dto.LogsDTO;
 import club.kwcoder.book.dto.PageDTO;
 import club.kwcoder.book.dto.ResultDTO;
 
+/**
+ * 借阅相关的服务接口
+ *
+ * @author zhinushannan
+ */
 public interface BorrowService {
 
-    /**
-     * 借阅书籍
-     *
-     * @param email    用户的邮箱
-     * @param bookUuid 书籍的uuid
-     * @return 返回统一对象
-     */
-    ResultDTO<String> borrow(String email, String bookUuid);
 
     /**
-     * 分页查看借阅历史
+     * 根据书籍的uuid借阅书籍
      *
-     * @param email     用户的邮箱
-     * @param page      第几页
-     * @param size      每页的条数
-     * @param hasReturn 查询条件：是否已经归还，false未归还
-     * @return 返回统一对象
+     * @param jwt      用户的jwt
+     * @param bookUuid 书籍uuid
+     * @return 返回统一结果对象
      */
-    ResultDTO<PageDTO<LogsDTO>> list(String email, Integer page, Integer size, boolean hasReturn);
+    ResultDTO<String> borrow(String jwt, String bookUuid);
+
+    /**
+     * 根据条件分页查询借阅记录
+     *
+     * @param jwt       用户的jwt
+     * @param page      第几页
+     * @param size      一页有几条
+     * @param hasReturn 条件：是否已经归还
+     * @return 返回统一结果对象
+     */
+    ResultDTO<PageDTO<LogsDTO>> list(String jwt, Integer page, Integer size, boolean hasReturn);
 
     /**
      * 归还书籍
      *
-     * @param _id 借书日志的_id
-     * @return 返回同一对象
+     * @param _id 借阅日志的_id
+     * @return 返回统一结果对象
      */
     ResultDTO<String> returnBook(String _id);
 }

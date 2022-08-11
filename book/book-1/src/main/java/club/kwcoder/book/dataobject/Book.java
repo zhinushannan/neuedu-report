@@ -7,6 +7,12 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
+/**
+ * 书籍实体类对象
+ * 对应mongodb中的collection book
+ *
+ * @author zhinushannan
+ */
 @Data
 @Builder
 @NoArgsConstructor

@@ -10,6 +10,12 @@ import org.springframework.util.DigestUtils;
 
 import java.util.Date;
 
+/**
+ * 借阅日志实体类对象
+ * 对应mongodb中的collection borrowlog
+ *
+ * @author zhinushannan
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

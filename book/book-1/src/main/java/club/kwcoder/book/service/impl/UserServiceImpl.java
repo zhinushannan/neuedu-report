@@ -14,14 +14,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * 用户相关的服务接口实现类
+ *
+ * @author zhinushannan
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -34,6 +40,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     /**
      * 创建用户的方法
      *
@@ -42,6 +51,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public ResultDTO<String> save(User user) {
+        user.setRegister(new Date());
+        user.setLastLogin(user.getRegister());
         return insertOrUpdate(user, false);
     }
 
@@ -78,6 +89,7 @@ public class UserServiceImpl implements UserService {
                 user.setPassword(temp.getPassword());
             }
         }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return ResultDTO.ok(isUpdate ? "更新成功" : "插入成功", null);
     }

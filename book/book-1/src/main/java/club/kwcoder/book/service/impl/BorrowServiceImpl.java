@@ -11,6 +11,7 @@ import club.kwcoder.book.repository.BookRepository;
 import club.kwcoder.book.repository.BorrowLogRepository;
 import club.kwcoder.book.repository.UserRepository;
 import club.kwcoder.book.service.BorrowService;
+import club.kwcoder.book.util.JwtUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +22,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
+/**
+ * 借阅相关的服务接口实现类
+ *
+ * @author zhinushannan
+ */
 @Service
 public class BorrowServiceImpl implements BorrowService {
 
@@ -35,20 +40,25 @@ public class BorrowServiceImpl implements BorrowService {
     @Autowired
     private BorrowLogRepository borrowLogRepository;
 
+    @Autowired
+    private JwtUtils jwtUtils;
+
 
     /**
      * 借阅书籍
      *
-     * @param email    用户的邮箱
+     * @param jwt      用户的jwt
      * @param bookUuid 书籍的uuid
      * @return 返回统一对象
      */
     @Override
-    public ResultDTO<String> borrow(String email, String bookUuid) {
-        if (StringUtils.isBlank(email)) {
-            // 尚未登录
-            return ResultDTO.unauthorized();
+    public ResultDTO<String> borrow(String jwt, String bookUuid) {
+        org.springframework.security.core.userdetails.User userRedis = jwtUtils.getUser(jwt);
+        if (null == userRedis) {
+            return ResultDTO.forbidden("认证错误，请重新登录或联系管理员！");
         }
+        String email = userRedis.getUsername();
+
         if (StringUtils.isBlank(bookUuid)) {
             // 书籍id为空
             return ResultDTO.forbidden("参数错误！");
@@ -98,14 +108,20 @@ public class BorrowServiceImpl implements BorrowService {
     /**
      * 分页查看借阅历史
      *
-     * @param email     用户的邮箱
+     * @param jwt       用户的jwt
      * @param page      第几页
      * @param size      每页的条数
      * @param hasReturn 查询条件：是否已经归还，false未归还
      * @return 返回统一对象
      */
     @Override
-    public ResultDTO<PageDTO<LogsDTO>> list(String email, Integer page, Integer size, boolean hasReturn) {
+    public ResultDTO<PageDTO<LogsDTO>> list(String jwt, Integer page, Integer size, boolean hasReturn) {
+        org.springframework.security.core.userdetails.User userRedis = jwtUtils.getUser(jwt);
+        if (null == userRedis) {
+            return ResultDTO.forbidden("认证错误，请重新登录或联系管理员！");
+        }
+        String email = userRedis.getUsername();
+
         if (page <= 0 || size <= 0) {
             return ResultDTO.forbidden("参数不正确！");
         }

@@ -21,7 +21,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-
+/**
+ * 书籍相关的服务接口实现类
+ *
+ * @author zhinushannan
+ */
 @Service
 public class BookServiceImpl implements BookService {
     @Autowired

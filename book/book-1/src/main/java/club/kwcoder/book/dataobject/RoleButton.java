@@ -8,8 +8,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 /**
- * 图书分类实体类对象
- * 对应mongodb中的collection book_classify
+ * 角色-按钮实体类对象
+ * 用户角色和按钮的对应关系
+ * 对应mongodb中的collection role_button
  *
  * @author zhinushannan
  */
@@ -17,17 +18,21 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Document(collection = "book_classify")
-public class BookClassify {
+@Document(collection = "role_button")
+public class RoleButton {
 
     /**
-     * 图书分类的ID
+     * _id，uuid
      */
     @MongoId
-    private String classifyId;
+    private String _id;
     /**
-     * 图书分类的名称
+     * 角色名称
      */
-    private String classify;
+    private String roleName;
+    /**
+     * 按钮的id
+     */
+    private String buttonId;
 
 }

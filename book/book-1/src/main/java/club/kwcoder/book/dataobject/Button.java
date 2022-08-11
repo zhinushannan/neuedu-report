@@ -8,8 +8,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 /**
- * 图书分类实体类对象
- * 对应mongodb中的collection book_classify
+ * 按钮实体类对象
+ * 用户控制前端的按钮显示与否
+ * 对应mongodb中的collection button
  *
  * @author zhinushannan
  */
@@ -17,17 +18,17 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Document(collection = "book_classify")
-public class BookClassify {
+@Document(collection = "button")
+public class Button {
 
     /**
-     * 图书分类的ID
+     * 按钮的id
      */
     @MongoId
-    private String classifyId;
+    private Integer id;
     /**
-     * 图书分类的名称
+     * 按钮的名称
      */
-    private String classify;
+    private String button;
 
 }

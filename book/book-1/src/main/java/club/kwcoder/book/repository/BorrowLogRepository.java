@@ -7,7 +7,11 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Date;
 
-
+/**
+ * 借阅日志的数据访问接口
+ *
+ * @author zhinushannan
+ */
 public interface BorrowLogRepository extends MongoRepository<BorrowLog, String> {
 
     /**

@@ -8,26 +8,27 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 /**
- * 图书分类实体类对象
- * 对应mongodb中的collection book_classify
+ * 角色实体类对象
+ * 对应mongodb中的collection role
  *
  * @author zhinushannan
  */
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Document(collection = "book_classify")
-public class BookClassify {
+@Document(collection = "role")
+public class Role {
 
     /**
-     * 图书分类的ID
+     * 角色名称
      */
     @MongoId
-    private String classifyId;
+    private String name;
     /**
-     * 图书分类的名称
+     * 角色备注
      */
-    private String classify;
+    private String remark;
+
 
 }

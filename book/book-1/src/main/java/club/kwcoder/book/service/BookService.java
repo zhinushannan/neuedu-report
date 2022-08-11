@@ -8,12 +8,18 @@ import club.kwcoder.book.dto.ResultDTO;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 书籍相关的服务接口
+ *
+ * @author zhinushannan
+ */
 public interface BookService {
     /**
-     * 创建书籍的方法
+     * 保存或更新书籍
+     * 若更新，book对象中的uuid不为空
      *
-     * @param book 书籍信息对象
-     * @return 返回响应结果对象
+     * @param book 书籍对象
+     * @return 返回统一结果对象
      */
     ResultDTO<String> save(Book book);
 
@@ -35,7 +41,7 @@ public interface BookService {
     ResultDTO<List<BookClassify>> classifyList();
 
     /**
-     * 删除书籍
+     * 根据书籍的uuid删除书籍
      *
      * @param uuid 书籍的uuid
      * @return 返回统一结果对象
