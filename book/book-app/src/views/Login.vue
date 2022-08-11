@@ -74,7 +74,7 @@ export default {
 
               _this.$router.push("/dashboard")
             } else {
-              ElMessage.error(data.message)
+              ElMessage.error("账户信息错误或账户不存在！")
             }
           })
         } else {

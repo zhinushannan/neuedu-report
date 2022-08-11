@@ -1,0 +1,88 @@
+[
+      {
+        icon: "el-icon-lx-home",
+        index: "/dashboard",
+        title: "系统首页",
+      },
+      {
+        icon: "el-icon-lx-read",
+        index: "1",
+        title: "图书管理",
+        subs: [
+          {
+            index: "/book/list",
+            title: "查看图书"
+          },
+          {
+            index: "/book/save",
+            title: "添加图书"
+          }
+        ]
+      },
+      {
+        icon: "el-icon-lx-people",
+        index: "2",
+        title: "用户管理",
+        subs: [
+          {
+            index: "/user/list",
+            title: "查看用户"
+          },
+          {
+            index: "/user/save",
+            title: "添加用户"
+          }
+        ]
+      },
+      {
+        icon: "el-icon-lx-vipcard",
+        index: "3",
+        title: "借阅管理",
+        subs: [
+          {
+            index: "/borrow/return",
+            title: "归还书籍"
+          },
+          {
+            index: "/borrow/logs",
+            title: "借阅日志"
+          }
+        ]
+      },
+      {
+        icon: "el-icon-lx-cascades",
+        index: "/table",
+        title: "基础表格",
+      },
+      {
+        icon: "el-icon-lx-calendar",
+        index: "4",
+        title: "表单相关",
+        subs: [
+          {
+            index: "/form",
+            title: "基本表单",
+          },
+        ],
+      },
+      {
+        icon: "el-icon-lx-emoji",
+        index: "/icon",
+        title: "自定义图标",
+      },
+      {
+        icon: "el-icon-lx-warn",
+        index: "5",
+        title: "错误处理",
+        subs: [
+          {
+            index: "/permission",
+            title: "权限测试",
+          },
+          {
+            index: "/404",
+            title: "404页面",
+          },
+        ],
+      },
+    ]

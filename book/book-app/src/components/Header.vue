@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <!-- 折叠按钮 -->
-    <div class="collapse-btn" @click="collapseChage">
+    <div class="collapse-btn" @click="collapseChange">
       <i v-if="!sidebar.collapse" class="el-icon-s-fold"></i>
       <i v-else class="el-icon-s-unfold"></i>
     </div>
@@ -49,7 +49,6 @@ export default {
     const collapseChange = () => {
       sidebar.handleCollapse();
     };
-
     onMounted(() => {
       if (document.body.clientWidth < 1500) {
         collapseChange();

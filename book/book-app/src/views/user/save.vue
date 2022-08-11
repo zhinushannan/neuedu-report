@@ -24,6 +24,16 @@
           <el-form-item label="姓名" prop="name">
             <el-input v-model="form.name"></el-input>
           </el-form-item>
+          <el-form-item label="角色" prop="role">
+            <el-select v-model="form.role" placeholder="请选择角色" filterable style="width: 100%;">
+              <el-option
+                  v-for="item in roleList"
+                  :key="item.name"
+                  :label="item.remark"
+                  :value="item.name"
+              />
+            </el-select>
+          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="onSubmit">表单提交</el-button>
             <el-button @click="onReset" v-if="!isUpdate">重置表单</el-button>
@@ -54,12 +64,17 @@ export default {
         name: [
           {required: true, message: "请输入姓名", trigger: "blur"},
         ],
+        role: [
+          {required: true, message: "请选择权限", trigger: "blur"},
+        ],
       },
       form: {
         email: "",
         name: "",
-        password: ""
-      }
+        password: "",
+        role: ""
+      },
+      roleList: []
     }
   },
   methods: {
@@ -86,6 +101,13 @@ export default {
       this.$refs.saveUser.resetFields();
     }
   },
+  mounted() {
+    let _this = this
+    _this.$axios.get("/user/role/list").then((resp) => {
+      _this.roleList = resp.data.data
+    })
+
+  }
 }
 </script>
 
