@@ -1,0 +1,7 @@
+/Users/zhinushannan/code/weather/hbase-demo/weather_bigdata/src/main/java/club/kwcoder/runner/Forecast.java
+/Users/zhinushannan/code/weather/hbase-demo/weather_bigdata/src/main/java/club/kwcoder/WeatherStart.java
+/Users/zhinushannan/code/weather/hbase-demo/weather_bigdata/src/main/java/club/kwcoder/runner/DataCleaning.java
+/Users/zhinushannan/code/weather/hbase-demo/weather_bigdata/src/main/java/club/kwcoder/runner/YearSummary.java
+/Users/zhinushannan/code/weather/hbase-demo/weather_bigdata/src/main/java/club/kwcoder/writable/WeatherWritable.java
+/Users/zhinushannan/code/weather/hbase-demo/weather_bigdata/src/main/java/club/kwcoder/writable/ForecastWritable.java
+/Users/zhinushannan/code/weather/hbase-demo/weather_bigdata/src/main/java/club/kwcoder/writable/WeatherWritableSummary.java
