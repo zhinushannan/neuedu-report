@@ -1,14 +1,17 @@
 package club.kwcoder.book.controller;
 
 import club.kwcoder.book.builder.MapBuilder;
+import club.kwcoder.book.dataobject.Role;
 import club.kwcoder.book.dataobject.User;
 import club.kwcoder.book.dto.PageDTO;
 import club.kwcoder.book.dto.ResultDTO;
 import club.kwcoder.book.dto.UserDTO;
+import club.kwcoder.book.service.RoleService;
 import club.kwcoder.book.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,9 +30,13 @@ public class UserController {
     public static final String update = "更新";
     public static final String delete = "删除";
     public static final String list = "查询";
+    public static final String roleList = "权限列表查询";
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
     /**
      * 保存用户
@@ -38,7 +45,7 @@ public class UserController {
      * @return 返回统一结果对象
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ResultDTO<String> save(@RequestBody User user) {
+    public ResultDTO<String> save(@RequestBody UserDTO user) {
         return userService.save(user);
     }
 
@@ -49,7 +56,7 @@ public class UserController {
      * @return 返回统一结果对象
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResultDTO<String> update(@RequestBody User user) {
+    public ResultDTO<String> update(@RequestBody UserDTO user) {
         return userService.update(user);
     }
 
@@ -86,6 +93,11 @@ public class UserController {
                 .put("remain", remain)
                 .build();
         return userService.list(page, size, conditions);
+    }
+
+    @RequestMapping(value = "/role/list", method = RequestMethod.GET)
+    public ResultDTO<List<Role>> roleList() {
+        return roleService.roleList();
     }
 
 }

@@ -50,31 +50,13 @@ class Book1ApplicationTests {
     @Autowired
     private RoleButtonRepository roleButtonRepository;
 
-    @Autowired
-    private RedisUtils redisUtils;
-
     @Test
-    void test() {
-        String jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBrd2NvZGVyLmNsdWIiLCJpYXQiOjE2NjAwNjQ4ODUsImV4cCI6MTY2MDY2OTY4NX0.qxD_dF_ew8q9dz8PVG_kGzP4YvirFBey_H11kwIsrdMxQwA8rjqxLaM2SFXOxeH1NcTkiXUUL48AtYE0ZBAW8A";
-        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) redisUtils.get(jwt);
-
-        System.out.println(user);
-    }
-
-    @Test
-    void saveUser() {
-        userRepository.save(User.builder()
-                .email("123")
-                .password("123")
-                .remain(5)
-                .name("123").build());
-    }
-
-    @Test
-    void contextLoads() throws IOException {
+    void initBook() throws IOException {
         // 书名,作者,出版社,关键词,摘要,中国图书分类号,出版年月
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get("/Users/zhinushannan/code/big_data/py/data/book.csv"))));
+        bookRepository.deleteAll();
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get("/Users/zhinushannan/code/weather/book/data/book.csv"))));
         String str = "";
         while ((str = reader.readLine()) != null) {
             if (str.startsWith("书名")) {
@@ -106,6 +88,8 @@ class Book1ApplicationTests {
 
     @Test
     void initClassify() {
+        bookClassifyRepository.deleteAll();
+
         Map<String, String> classify = new HashMap<>();
         classify.put("A", "马克思主义、列宁主义、毛泽东思想、邓小平理论");
         classify.put("B", "哲学、宗教");
@@ -217,15 +201,11 @@ class Book1ApplicationTests {
         roleButtonRepository.save(RoleButton.builder()._id(UUID.randomUUID().toString()).roleName("USER").buttonId("borrow-return-return").build());
     }
 
-    @Autowired
-    private UserService userService;
-
-
     @Test
     void initUser() {
         userRepository.deleteAll();
-        userService.save(User.builder().name("admin@kwcoder.club").email("admin@kwcoder.club").password("123456").build());
-        userService.save(User.builder().name("user@kwcoder.club").email("user@kwcoder.club").password("123456").build());
+        userRepository.save(User.builder().name("admin@kwcoder.club").email("admin@kwcoder.club").password("123456").remain(5).register(new Date()).lastLogin(new Date()).build());
+        userRepository.save(User.builder().name("user@kwcoder.club").email("user@kwcoder.club").password("123456").remain(5).register(new Date()).lastLogin(new Date()).build());
     }
 
 }

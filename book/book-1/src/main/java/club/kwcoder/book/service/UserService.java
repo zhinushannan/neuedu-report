@@ -20,7 +20,7 @@ public interface UserService {
      * @param user 用户信息对象
      * @return 返回统一结果对象
      */
-    ResultDTO<String> save(User user);
+    ResultDTO<String> save(UserDTO user);
 
     /**
      * 更新用户信息
@@ -28,7 +28,7 @@ public interface UserService {
      * @param user 用户信息对象
      * @return 返回统一结果对象
      */
-    ResultDTO<String> update(User user);
+    ResultDTO<String> update(UserDTO user);
 
     /**
      * 分页查询用户列表

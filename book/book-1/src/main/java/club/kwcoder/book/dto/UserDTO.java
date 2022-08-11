@@ -1,7 +1,9 @@
 package club.kwcoder.book.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -12,6 +14,8 @@ import java.util.Date;
  */
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDTO {
 
     /**
@@ -22,6 +26,14 @@ public class UserDTO {
      * 用户的姓名
      */
     private String name;
+    /**
+     * 用户的密码
+     */
+    private String password;
+    /**
+     * 用户的角色
+     */
+    private String role;
     /**
      * 用户剩余的可借阅量
      */

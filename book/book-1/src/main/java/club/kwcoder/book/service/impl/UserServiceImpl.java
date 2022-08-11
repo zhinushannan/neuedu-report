@@ -2,11 +2,13 @@ package club.kwcoder.book.service.impl;
 
 import club.kwcoder.book.dataobject.Book;
 import club.kwcoder.book.dataobject.User;
+import club.kwcoder.book.dataobject.UserRole;
 import club.kwcoder.book.dto.PageDTO;
 import club.kwcoder.book.dto.ResultDTO;
 import club.kwcoder.book.dto.UserDTO;
 import club.kwcoder.book.repository.BorrowLogRepository;
 import club.kwcoder.book.repository.UserRepository;
+import club.kwcoder.book.repository.UserRoleRepository;
 import club.kwcoder.book.service.UserService;
 import club.kwcoder.book.util.CriteriaUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -18,10 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 用户相关的服务接口实现类
@@ -33,6 +32,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserRoleRepository userRoleRepository;
 
     @Autowired
     private BorrowLogRepository borrowLogRepository;
@@ -50,7 +52,7 @@ public class UserServiceImpl implements UserService {
      * @return 返回响应结果对象
      */
     @Override
-    public ResultDTO<String> save(User user) {
+    public ResultDTO<String> save(UserDTO user) {
         user.setRegister(new Date());
         user.setLastLogin(user.getRegister());
         return insertOrUpdate(user, false);
@@ -63,11 +65,11 @@ public class UserServiceImpl implements UserService {
      * @return 返回统一对象
      */
     @Override
-    public ResultDTO<String> update(User user) {
+    public ResultDTO<String> update(UserDTO user) {
         return insertOrUpdate(user, true);
     }
 
-    private ResultDTO<String> insertOrUpdate(User user, boolean isUpdate) {
+    private ResultDTO<String> insertOrUpdate(UserDTO user, boolean isUpdate) {
         if (StringUtils.isAnyBlank(user.getName(), user.getEmail())) {
             return ResultDTO.forbidden("字段不正确！");
         }
@@ -77,12 +79,16 @@ public class UserServiceImpl implements UserService {
         if (isUpdate && !userRepository.existsById(user.getEmail())) {
             return ResultDTO.forbidden("用户未注册！");
         }
+        // 插入
         if (!isUpdate) {
             if (StringUtils.isAnyBlank(user.getPassword())) {
                 return ResultDTO.forbidden("字段不正确！");
             }
+            userRoleRepository.save(UserRole.builder()._id(UUID.randomUUID().toString()).email(user.getEmail()).roleName(user.getRole()).build());
             user.setRemain(5);
-        } else {
+        } else
+        // 更新
+        {
             User temp = userRepository.findByEmail(user.getEmail());
             user.setRemain(temp.getRemain());
             if (StringUtils.isAnyBlank(user.getPassword())) {
@@ -90,7 +96,14 @@ public class UserServiceImpl implements UserService {
             }
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        userRepository.save(User.builder()
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .name(user.getName())
+                .remain(user.getRemain())
+                .register(user.getRegister())
+                .lastLogin(user.getLastLogin())
+                .build());
         return ResultDTO.ok(isUpdate ? "更新成功" : "插入成功", null);
     }
 
