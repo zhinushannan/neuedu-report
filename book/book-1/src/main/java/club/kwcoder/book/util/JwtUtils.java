@@ -4,7 +4,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,17 +26,24 @@ import java.util.stream.Collectors;
 @ConfigurationProperties(prefix = "club.kwcoder.book")
 public class JwtUtils {
 
+    /**
+     * 从配置文件中注入，值为604800
+     */
     private long expire;
+    /**
+     * 从配置文件中注入，值为f4e2e52034348f86b67cde581c0f9eb5
+     */
     private String secret;
+    /**
+     * 从配置文件中注入，值为Authorization
+     */
     private String header;
-
-    @Autowired
-    private RedisUtils redisUtils;
 
     /**
      * 生成jwt
      *
-     * @param username 用户名
+     * @param username  用户名
+     * @param authority 用户权限列表
      * @return 返回jwt
      */
     public String generateToken(String username, List<String> authority) {
