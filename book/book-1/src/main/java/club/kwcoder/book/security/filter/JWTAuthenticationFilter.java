@@ -1,7 +1,6 @@
 package club.kwcoder.book.security.filter;
 
 import club.kwcoder.book.util.JwtUtils;
-import club.kwcoder.book.util.RedisUtils;
 import cn.hutool.core.util.StrUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -29,9 +28,6 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 
     @Autowired
     private JwtUtils jwtUtils;
-
-    @Autowired
-    private RedisUtils redisUtils;
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
@@ -63,11 +59,8 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
             throw new JwtException("token已过期");
         }
 
-        String username = claim.getSubject();
-
-        User user = (User) redisUtils.get(jwt);
-
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, user, user.getAuthorities());
+        User user = jwtUtils.getUser(jwt);
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user, user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
         chain.doFilter(request, response);

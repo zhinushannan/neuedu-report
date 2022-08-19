@@ -1,6 +1,5 @@
 import {createRouter, createWebHashHistory} from "vue-router";
 import Home from "../views/Home.vue";
-import fr from "element-plus/packages/locale/lang/fr";
 import {ElMessage, useFocus} from "element-plus";
 
 const routes = [

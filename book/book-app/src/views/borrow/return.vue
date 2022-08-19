@@ -26,8 +26,8 @@
         <el-table-column prop="book.author" label="作者"></el-table-column>
         <el-table-column prop="book.keyWord" label="关键词"></el-table-column>
         <el-table-column prop="book.publish" label="出版社"></el-table-column>
-        <el-table-column prop="borrowLog.borrowDate" label="借阅时间"></el-table-column>
-        <el-table-column prop="borrowLog.returnDate" label="归还时间"></el-table-column>
+        <el-table-column prop="borrowLog.borrowDate" label="借阅时间" :formatter="formatDate"></el-table-column>
+        <el-table-column prop="borrowLog.returnDate" label="归还时间" :formatter="formatDate"></el-table-column>
 
 
         <el-table-column label="操作" width="300" align="center">
@@ -93,6 +93,19 @@ export default {
       _this.$axios.get("/borrow/return?_id=" + row["borrowLog"]["_id"]).then((resp) => {
         console.log(resp)
       })
+    },
+    formatDate(row, column) {
+      let date = ""
+      if (column["property"] === "borrowLog.borrowDate") {
+        let borrowData = row.borrowLog.borrowDate
+        date = borrowData.substring(0, borrowData.indexOf(".")).replace("T", " ")
+      } else {
+        let returnDate = row.borrowLog.returnDate
+        if (returnDate !== null) {
+          date = returnDate.substring(0, returnDate.indexOf(".")).replace("T", " ")
+        }
+      }
+      return date
     }
   },
   mounted() {

@@ -69,6 +69,7 @@ public class UserServiceImpl implements UserService {
         return insertOrUpdate(user, true);
     }
 
+    @Transactional
     private ResultDTO<String> insertOrUpdate(UserDTO user, boolean isUpdate) {
         if (StringUtils.isAnyBlank(user.getName(), user.getEmail())) {
             return ResultDTO.forbidden("字段不正确！");

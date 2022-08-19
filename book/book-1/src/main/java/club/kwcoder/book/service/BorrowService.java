@@ -35,8 +35,9 @@ public interface BorrowService {
     /**
      * 归还书籍
      *
+     * @param jwt 用户的jwt
      * @param _id 借阅日志的_id
      * @return 返回统一结果对象
      */
-    ResultDTO<String> returnBook(String _id);
+    ResultDTO<String> returnBook(String jwt, String _id);
 }

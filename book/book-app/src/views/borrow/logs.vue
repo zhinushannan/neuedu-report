@@ -12,30 +12,29 @@
     </div>
 
     <div class="container">
-      <!--      <div class="handle-box">-->
-      <!--        <el-select v-model="book.address" placeholder="地址" class="handle-select mr10">-->
-      <!--          <el-option key="1" label="广东省" value="广东省"></el-option>-->
-      <!--          <el-option key="2" label="湖南省" value="湖南省"></el-option>-->
-      <!--        </el-select>-->
-      <!--        <el-input v-model="book.name" placeholder="用户名" class="handle-input mr10"></el-input>-->
-      <!--        <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>-->
-      <!--      </div>-->
-
 
       <el-table :data="page.data" border class="table" ref="multipleTable" header-cell-class-name="table-header">
         <el-table-column prop="book.name" label="书名"></el-table-column>
         <el-table-column prop="book.author" label="作者"></el-table-column>
         <el-table-column prop="book.keyWord" label="关键词"></el-table-column>
         <el-table-column prop="book.publish" label="出版社"></el-table-column>
-        <el-table-column prop="borrowLog.borrowDate" label="借阅时间"></el-table-column>
-        <el-table-column prop="borrowLog.returnDate" label="归还时间"></el-table-column>
+        <el-table-column prop="borrowLog.borrowDate" label="借阅时间" :formatter="formatDate"></el-table-column>
+        <el-table-column prop="borrowLog.returnDate" label="归还时间" :formatter="formatDate"></el-table-column>
 
         <el-table-column label="操作" width="300" align="center">
           <template #default="scope">
             <el-button type="success" size="small" plain icon="el-icon-lx-top"
+                       v-show="!scope.row.borrowLog.returnDate"
                        @click="returnBook(scope.$index, scope.row)" v-if="button.indexOf('borrow-logs-return') !== -1">
               归还
             </el-button>
+
+            <el-button type="success" size="small" plain disabled
+                       v-show="scope.row.borrowLog.returnDate"
+                       v-if="button.indexOf('borrow-logs-return') !== -1">
+              已归还
+            </el-button>
+
           </template>
         </el-table-column>
 
@@ -93,6 +92,19 @@ export default {
       _this.$axios.get("/borrow/return?_id=" + row["borrowLog"]["_id"]).then((resp) => {
         console.log(resp)
       })
+    },
+    formatDate(row, column) {
+      let date = ""
+      if (column["property"] === "borrowLog.borrowDate") {
+        let borrowData = row.borrowLog.borrowDate
+        date = borrowData.substring(0, borrowData.indexOf(".")).replace("T", " ")
+      } else {
+        let returnDate = row.borrowLog.returnDate
+        if (returnDate !== null) {
+          date = returnDate.substring(0, returnDate.indexOf(".")).replace("T", " ")
+        }
+      }
+      return date
     }
   },
   mounted() {

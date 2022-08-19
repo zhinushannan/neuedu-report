@@ -6,10 +6,16 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * jwt相关的工具类
@@ -34,14 +40,14 @@ public class JwtUtils {
      * @param username 用户名
      * @return 返回jwt
      */
-    public String generateToken(String username) {
-
+    public String generateToken(String username, List<String> authority) {
         Date nowDate = new Date();
         Date expireDate = new Date(nowDate.getTime() + 1000 * expire);
 
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
                 .setSubject(username)
+                .setAudience(authority.toString())
                 .setIssuedAt(nowDate)
                 .setExpiration(expireDate)// 7天過期
                 .signWith(SignatureAlgorithm.HS512, secret)
@@ -55,11 +61,10 @@ public class JwtUtils {
      * @return 用户对象
      */
     public User getUser(String jwt) {
-        Object o = redisUtils.get(jwt);
-        if (o == null) {
-            return null;
-        }
-        return (User) o;
+        Claims claims = getClaimByToken(jwt);
+        String authStr = claims.getAudience().substring(1, claims.getAudience().length() - 1);
+        List<GrantedAuthority> authorities = Arrays.stream(authStr.split(", ")).map((Function<String, GrantedAuthority>) s -> new SimpleGrantedAuthority("ROLE_" + s)).collect(Collectors.toList());
+        return new User(claims.getSubject(), "Password: [PROTECTED]; ", authorities);
     }
 
     /**
@@ -78,6 +83,7 @@ public class JwtUtils {
             return null;
         }
     }
+
 
     /**
      * 判断jwt是否过期

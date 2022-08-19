@@ -21,7 +21,6 @@
         <div class="login-btn">
           <el-button type="primary" @click="submitForm()">登录</el-button>
         </div>
-        <p class="login-tips">Tips : 用户名和密码随便填。</p>
       </el-form>
     </div>
   </div>
@@ -71,6 +70,9 @@ export default {
               localStorage.setItem("websiteInfo", JSON.stringify(data.data["websiteInfo"]))
               localStorage.setItem("email", data.data["email"])
               localStorage.setItem("websiteRate", JSON.stringify(data.data["websiteRate"]))
+
+              console.log(data.data["websiteInfo"])
+              console.log(data.data["websiteRate"])
 
               _this.$router.push("/dashboard")
             } else {

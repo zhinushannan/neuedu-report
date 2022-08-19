@@ -1,6 +1,6 @@
 package club.kwcoder.book.config;
 
-import club.kwcoder.book.util.RedisUtils;
+import club.kwcoder.book.util.JwtUtils;
 import com.alibaba.fastjson.JSONObject;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -31,14 +31,13 @@ public class LogAspect {
     private final static Logger LOG = LoggerFactory.getLogger(LogAspect.class);
 
     @Autowired
-    private RedisUtils redisUtils;
+    private JwtUtils jwtUtils;
 
     /**
      * 定义一个切点
      */
     @Pointcut("execution(public * club.kwcoder.book.controller.*Controller.*(..))")
-    public void controllerPointcut() {
-    }
+    public void controllerPointcut() {}
 
     @Before("controllerPointcut()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
@@ -58,7 +57,7 @@ public class LogAspect {
         String classBusiness = (String) cls.getDeclaredField("BUSINESS").get(null);
         String methodBusiness = (String) cls.getDeclaredField(methodName).get(null);
 
-        User authorization = (User) redisUtils.get(request.getHeader("authorization"));
+        User authorization = jwtUtils.getUser(request.getHeader(jwtUtils.getHeader()));
 
         // 打印请求信息
         LOG.info("------------- 【{}】-【{}】【{}】开始 -------------", authorization.getUsername(), classBusiness, methodBusiness);

@@ -73,6 +73,10 @@ public class BookServiceImpl implements BookService {
         } else
         // 修改的需求
         {
+            Book byUuid = bookRepository.findByUuid(book.getUuid());
+            if (byUuid == null) {
+                return ResultDTO.forbidden("书籍不存在！");
+            }
             // 当修改后的总数小于未归还的数量时
             long borrow = borrowLogRepository.countByBookUuidAndReturnDate(book.getUuid(), null);
             if (book.getTotal() < borrow) {

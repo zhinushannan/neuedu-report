@@ -70,16 +70,15 @@ public class BookLoginSuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         httpServletResponse.setContentType("application/json;charset=UTF-8");
         ServletOutputStream outputStream = httpServletResponse.getOutputStream();
-        // 生成jwt返回
-        String jwt = jwtUtils.generateToken(authentication.getName());
-        httpServletResponse.setHeader(jwtUtils.getHeader(), jwt);
-        // 将userDetails保存到redis中
-        User user = (User) authentication.getPrincipal();
-        redisUtils.set(jwt, user);
 
+
+        User user = (User) authentication.getPrincipal();
         List<String> roleNames = new ArrayList<>();
         user.getAuthorities().forEach(auth -> roleNames.add(auth.getAuthority().replace("ROLE_", "")));
 
+        // 生成jwt返回
+        String jwt = jwtUtils.generateToken(authentication.getName(), roleNames);
+        httpServletResponse.setHeader(jwtUtils.getHeader(), jwt);
 
         Map<String, Object> data = new HashMap<>();
         data.put("items", getItems(roleNames));

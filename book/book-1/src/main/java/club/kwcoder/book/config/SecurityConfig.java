@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 设置放行
                 .and()
                 .authorizeRequests()
-                .antMatchers("/book/list", "/book/classify/list", "/dashboard/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/book/list", "/book/classify/list").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/book/save", "/book/delete", "/user/**").hasRole("ADMIN")
                 .antMatchers("/borrow/**").hasRole("USER")
                 .antMatchers("/login", "/logout").permitAll()

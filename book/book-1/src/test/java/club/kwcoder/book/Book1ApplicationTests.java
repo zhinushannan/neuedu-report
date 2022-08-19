@@ -10,14 +10,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @SpringBootTest
 class Book1ApplicationTests {
@@ -49,6 +47,9 @@ class Book1ApplicationTests {
 
     @Autowired
     private RoleButtonRepository roleButtonRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Test
     void initBook() throws IOException {
@@ -204,8 +205,18 @@ class Book1ApplicationTests {
     @Test
     void initUser() {
         userRepository.deleteAll();
-        userRepository.save(User.builder().name("admin@kwcoder.club").email("admin@kwcoder.club").password("123456").remain(5).register(new Date()).lastLogin(new Date()).build());
-        userRepository.save(User.builder().name("user@kwcoder.club").email("user@kwcoder.club").password("123456").remain(5).register(new Date()).lastLogin(new Date()).build());
+        userRepository.save(User.builder().name("admin@kwcoder.club").email("admin@kwcoder.club").password(passwordEncoder.encode("123456")).remain(5).register(new Date()).lastLogin(new Date()).build());
+        userRepository.save(User.builder().name("user@kwcoder.club").email("user@kwcoder.club").password(passwordEncoder.encode("123456")).remain(5).register(new Date()).lastLogin(new Date()).build());
+    }
+
+    @Test
+    void test() {
+        List<String> list = new ArrayList<>();
+        list.add("123");
+        list.add("1234234");
+
+        System.out.println(list.toString().substring(1, list.toString().length() - 1));
+
     }
 
 }

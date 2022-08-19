@@ -68,8 +68,10 @@ public class BorrowController {
      * @return 返回统一结果对象
      */
     @RequestMapping(value = "/return", method = RequestMethod.GET)
-    public ResultDTO<String> returnBook(@RequestParam("_id") String _id) {
-        return borrowService.returnBook(_id);
+    public ResultDTO<String> returnBook(@RequestParam("_id") String _id,
+                                        HttpServletRequest request) {
+        String jwt = request.getHeader("authorization");
+        return borrowService.returnBook(jwt, _id);
     }
 
 }

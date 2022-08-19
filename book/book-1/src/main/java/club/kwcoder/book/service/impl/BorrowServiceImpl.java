@@ -52,6 +52,7 @@ public class BorrowServiceImpl implements BorrowService {
      * @return 返回统一对象
      */
     @Override
+    @Transactional
     public ResultDTO<String> borrow(String jwt, String bookUuid) {
         org.springframework.security.core.userdetails.User userRedis = jwtUtils.getUser(jwt);
         if (null == userRedis) {
@@ -158,11 +159,25 @@ public class BorrowServiceImpl implements BorrowService {
      */
     @Override
     @Transactional
-    public ResultDTO<String> returnBook(String _id) {
+    public ResultDTO<String> returnBook(String jwt, String _id) {
+        org.springframework.security.core.userdetails.User userRedis = jwtUtils.getUser(jwt);
+        if (null == userRedis) {
+            return ResultDTO.forbidden("认证错误，请重新登录或联系管理员！");
+        }
+        String email = userRedis.getUsername();
+
         BorrowLog log = borrowLogRepository.findBy_id(_id);
 
         if (null == log) {
             return ResultDTO.forbidden("参数错误！");
+        }
+
+        if (!StringUtils.equals(email, log.getEmail())) {
+            return ResultDTO.forbidden("认证错误！");
+        }
+
+        if (log.getReturnDate() != null) {
+            return ResultDTO.forbidden("您已经归还该图书！");
         }
 
         // 借书流程
